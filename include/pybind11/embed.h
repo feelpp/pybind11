@@ -51,7 +51,6 @@
             pybind11_init_##name(m);                                          \
             return m.ptr();                                                   \
         } catch (pybind11::error_already_set &e) {                            \
-            e.clear();                                                        \
             PyErr_SetString(PyExc_ImportError, e.what());                     \
             return nullptr;                                                   \
         } catch (const std::exception &e) {                                   \
@@ -64,7 +63,7 @@
     void pybind11_init_##name(pybind11::module &variable)
 
 
-NAMESPACE_BEGIN(pybind11)
+NAMESPACE_BEGIN(PYBIND11_NAMESPACE)
 NAMESPACE_BEGIN(detail)
 
 /// Python 2.7/3.x compatible version of `PyImport_AppendInittab` and error checks.
@@ -100,8 +99,7 @@ inline void initialize_interpreter(bool init_signal_handlers = true) {
     Py_InitializeEx(init_signal_handlers ? 1 : 0);
 
     // Make .py files in the working directory available by default
-    auto sys_path = reinterpret_borrow<list>(module::import("sys").attr("path"));
-    sys_path.append(".");
+    module::import("sys").attr("path").cast<list>().append(".");
 }
 
 /** \rst
@@ -192,4 +190,4 @@ private:
     bool is_valid = true;
 };
 
-NAMESPACE_END(pybind11)
+NAMESPACE_END(PYBIND11_NAMESPACE)
