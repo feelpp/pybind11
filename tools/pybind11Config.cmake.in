@@ -63,7 +63,9 @@
 set(PN pybind11)
 
 # location of pybind11/pybind11.h
-set(${PN}_INCLUDE_DIR "${PACKAGE_PREFIX_DIR}/@CMAKE_INSTALL_INCLUDEDIR@")
+#set(${PN}_INCLUDE_DIR "${PACKAGE_PREFIX_DIR}/@CMAKE_INSTALL_INCLUDEDIR@/include/feelpp")
+set(${PN}_INCLUDE_DIR "${PACKAGE_PREFIX_DIR}/include/feelpp/pybind11")
+
 
 set(${PN}_LIBRARY "")
 set(${PN}_DEFINITIONS USING_${PN})

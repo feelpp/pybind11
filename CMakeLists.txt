@@ -99,7 +99,7 @@ if(NOT (CMAKE_VERSION VERSION_LESS 3.0))  # CMake >= 3.0
   add_library(pybind11::pybind11 ALIAS pybind11)  # to match exported target
   target_include_directories(pybind11 INTERFACE $<BUILD_INTERFACE:${PYBIND11_INCLUDE_DIR}>
                                                 $<BUILD_INTERFACE:${PYTHON_INCLUDE_DIRS}>
-                                                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+                                                $<INSTALL_INTERFACE:include/feelpp>)
   target_compile_options(pybind11 INTERFACE $<BUILD_INTERFACE:${PYBIND11_CPP_STANDARD}>)
 
   add_library(module INTERFACE)
@@ -147,11 +147,10 @@ if (PYBIND11_INSTALL)
     if(NOT PYBIND11_EXPORT_NAME)
       set(PYBIND11_EXPORT_NAME "${PROJECT_NAME}Targets")
     endif()
-
     install(TARGETS pybind11 module embed
             EXPORT "${PYBIND11_EXPORT_NAME}")
-    if(PYBIND11_MASTER_PROJECT)
-      install(EXPORT "${PYBIND11_EXPORT_NAME}"
+          if( 1 ) #PYBIND11_MASTER_PROJECT)
+            install(EXPORT "${PYBIND11_EXPORT_NAME}"
               NAMESPACE "${PROJECT_NAME}::"
               DESTINATION ${PYBIND11_CMAKECONFIG_INSTALL_DIR})
     endif()
