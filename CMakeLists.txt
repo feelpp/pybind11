@@ -199,10 +199,17 @@ else()
   set(PYBIND11_INSTALL OFF)
 endif()
 
-#  add_library(embed INTERFACE)
-#  add_library(pybind11::embed ALIAS embed)
-#  target_link_libraries(embed INTERFACE pybind11::pybind11 $<BUILD_INTERFACE:${PYTHON_LIBRARIES}>)
-#endif()
+include("${CMAKE_CURRENT_SOURCE_DIR}/tools/pybind11Common.cmake")
+# https://github.com/jtojnar/cmake-snips/#concatenating-paths-when-building-pkg-config-files
+# TODO: cmake 3.20 adds the cmake_path() function, which obsoletes this snippet
+include("${CMAKE_CURRENT_SOURCE_DIR}/tools/JoinPaths.cmake")
+
+# Relative directory setting
+if(USE_PYTHON_INCLUDE_DIR AND DEFINED Python_INCLUDE_DIRS)
+  file(RELATIVE_PATH CMAKE_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_PREFIX} ${Python_INCLUDE_DIRS})
+elseif(USE_PYTHON_INCLUDE_DIR AND DEFINED PYTHON_INCLUDE_DIR)
+  file(RELATIVE_PATH CMAKE_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_PREFIX} ${PYTHON_INCLUDE_DIRS})
+endif()
 
 if(PYBIND11_INSTALL)
   install(DIRECTORY ${pybind11_INCLUDE_DIR}/pybind11 DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

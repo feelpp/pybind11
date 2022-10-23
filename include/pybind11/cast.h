@@ -604,7 +604,6 @@ public:
                 throw value_error("Character code point not in range(0x10000)");
             }
         }
-        }
 
         if (str_len != 1) {
             throw value_error("Expected a character, but multi-character string found");
@@ -769,7 +768,6 @@ protected:
         if (typeinfo->default_holder) {
             throw cast_error("Unable to load a custom holder type from a default-holder instance");
         }
-    }
     }
 
     bool load_value(value_and_holder &&v_h) {
