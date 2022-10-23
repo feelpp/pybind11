@@ -170,7 +170,7 @@ if(NOT PYBIND11_MASTER_PROJECT)
       "${pybind11_INCLUDE_DIR}"
       CACHE INTERNAL "")
 endif()
-
+message(STATUS "[pybind11] include dirs: ${PYBIND11_INCLUDE_DIR}")
 # Note: when creating targets, you cannot use if statements at configure time -
 # you need generator expressions, because those will be placed in the target file.
 # You can also place ifs *in* the Config.in, but not here.
@@ -212,6 +212,7 @@ elseif(USE_PYTHON_INCLUDE_DIR AND DEFINED PYTHON_INCLUDE_DIR)
 endif()
 
 if(PYBIND11_INSTALL)
+  message(STATUS "[pybind11] Installing headers to ${CMAKE_INSTALL_INCLUDEDIR}")
   install(DIRECTORY ${pybind11_INCLUDE_DIR}/pybind11 DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
   set(PYBIND11_CMAKECONFIG_INSTALL_DIR
       "${CMAKE_INSTALL_DATAROOTDIR}/cmake/${PROJECT_NAME}"
@@ -246,7 +247,7 @@ if(PYBIND11_INSTALL)
       VERSION ${PROJECT_VERSION}
       COMPATIBILITY AnyNewerVersion ARCH_INDEPENDENT)
   endif()
-
+  message(STATUS "[pybind11] Installing ${PROJECT_NAME}Config.cmake to ${PYBIND11_CMAKECONFIG_INSTALL_DIR}")
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
           ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
@@ -259,7 +260,7 @@ if(PYBIND11_INSTALL)
   if(NOT PYBIND11_EXPORT_NAME)
     set(PYBIND11_EXPORT_NAME "${PROJECT_NAME}Targets")
   endif()
-
+  message(STATUS "[pybind11] Installing ${PYBIND11_EXPORT_NAME} to ${PYBIND11_CMAKECONFIG_INSTALL_DIR}")
   install(TARGETS pybind11_headers EXPORT "${PYBIND11_EXPORT_NAME}")
 
   install(
